@@ -152,3 +152,5 @@ while True:
   
     pygame.display.flip()
     clock.tick(60)  # 60 FPSS
+
+#Made in colaboration by Adrian Vålerhaugen and his coworker Andreas Christensen 
