@@ -7,15 +7,18 @@ pygame.init()
 width, height = 800, 600
 
 blue = (0, 180, 255)
-yellow = (255, 255, 0)
-green = (255, 0, 255)
+yellow = (255, 255, 0) 
+green = (0, 200, 0)
 
-screen = pygame.display.set_mode((width, height))
+screen = pygame.display.set_mode((width, height), vsync=1) 
 pygame.display.set_caption("Flappy Bird")
+background = pygame.image.load("background.png")
+background = pygame.transform.scale(background, (800, 600))
 
 class Bird:
     def __init__(self):
-        self.size = 50
+        self.sprite = pygame.image.load("flappy_bird.png")
+        self.size = 40
         self.x = width // 3 - self.size // 2
         self.y = 2
         self.accel = 0
@@ -27,12 +30,12 @@ class Bird:
 
     def update(self):
         self.y -= self.accel 
-        self.rect = pygame.Rect(self.x, self.y, self.size, self.size)
+        self.rect = pygame.Rect(self.x + 10, self.y , self.size, self.size )
 
-
-    def draw(self):
-        pygame.draw.rect(screen, yellow, (self.x, self.y, self.size, self.size))
-        
+    def draw(self): 
+        #pygame.draw.rect(screen, yellow, self.rect)
+        screen.blit(self.sprite, (self.x, self.y))
+ 
     def flap(self):
         if self.isflapped:
             self.framesflapped += 1
@@ -55,6 +58,7 @@ class Bird:
 
 class Pipe:
     def __init__(self, x):
+        self.sprite = pygame.image.load("pipe.png")
         self.size1 = 100
         self.size2 = 1000
 
@@ -94,10 +98,16 @@ class Pipe:
         self.secondpiperect = pygame.Rect(self.secondpipe_x, self.secondpipe_y, self.secondpipe_size1, self.secondpipe_size2)
 
     def draw(self): 
-        pygame.draw.rect(screen, green, self.Piperect)
-        pygame.draw.rect(screen, green, self.secondpiperect)
 
-       
+        #pygame.draw.rect(screen, green, self.Piperect)
+        #pygame.draw.rect(screen, green, self.secondpiperect)
+         
+        screen.blit(self.sprite, (self.x, self.y+ 200))
+        screen.blit(pygame.transform.flip(self.sprite, False, True), (self.secondpipe_x, self.secondpipe_y - 1200 ))
+
+        
+
+         
 
 #pipe = Pipe()
 
@@ -122,11 +132,12 @@ while True:
                 bird.framesflapped = 0
                 bird.accel = 12
             break
-
+    screen.fill(blue)
+    screen.blit(background, (0, 0))
     bird.update()
     bird.flap()
-    screen.fill(blue)
     bird.draw()
+
 
     for pipe in allpipes:
         pipe.draw()
