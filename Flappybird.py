@@ -53,10 +53,6 @@ class Bird:
         if self.rect.colliderect(pipe.Piperect) or self.rect.colliderect(pipe.secondpiperect):
             quit()
 
-        print("cum")
-        
-        
-
 class Pipe:
     def __init__(self, x):
         self.size1 = 100
